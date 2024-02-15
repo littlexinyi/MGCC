@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 【AAAI 2024 】Text-based Occluded Person Re-identification via Multi-Granularity Contrastive Consistency Learning
 [![Paper](http://img.shields.io/badge/Paper-arxiv.2308.10045-FF6B6B.svg)](https://arxiv.org/abs/2308.10045)
 </div>
@@ -39,7 +38,7 @@ pip install -r requirements.txt
     |       |-- CUHK-PEDES.json
     |-- others/
     ~~~
- 
+
 *  **ICFG-PEDES**
 
     Download the ICFG-PEDES dataset from [here](https://github.com/zifyloo/SSAN)   
@@ -55,7 +54,7 @@ pip install -r requirements.txt
     |       |-- ICFG_PEDES.json
     |-- others/
     ~~~
- 
+
 *  **RSTPReid**
 
     Download the RSTPReid dataset from [here](https://github.com/njtechcvlab/rstpreid-dataset)   
@@ -101,8 +100,3 @@ If you find our method useful in your work, please consider staring 🌟 this re
 ## Acknowledgments
 
 The implementation of our paper relies on resources from [SSAN](https://github.com/zifyloo/SSAN), [CLIP](https://github.com/openai/CLIP) and [XCLIP](https://github.com/xuguohai/X-CLIP). We thank the original authors for their open-sourcing.
-
-=======
-# MGCC
-The code of MGCC: Text-based Occluded Person Re-identification via Multi-Granularity Contrastive Consistency Learning
->>>>>>> 94767d7739f24924b762cbddd831b4ff990823d1
