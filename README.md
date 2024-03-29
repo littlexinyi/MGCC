@@ -1,6 +1,6 @@
 # 【AAAI 2024 】Text-based Occluded Person Re-identification via Multi-Granularity Contrastive Consistency Learning
 
-This repository offers the official implementation of [MGCC] in PyTorch.
+This repository offers the official implementation of [MGCC](https://ojs.aaai.org/index.php/AAAI/article/view/28433) in PyTorch.
 
 ## Overview
 
@@ -91,7 +91,17 @@ pip install -r requirements.txt
 ## Citation
 
 If you find our method useful in your work, please consider staring 🌟 this repo and citing 📑 our paper:
-
+```
+@inproceedings{wu2024text,
+  title={Text-based Occluded Person Re-identification via Multi-Granularity Contrastive Consistency Learning},
+  author={Wu, Xinyi and Ma, Wentao and Guo, Dan and Zhou, Tongqing and Zhao, Shan and Cai, Zhiping},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume={38},
+  number={6},
+  pages={6162--6170},
+  year={2024}
+}
+```
 ## Acknowledgments
 
 The implementation of our paper relies on resources from [SSAN](https://github.com/zifyloo/SSAN), [CLIP](https://github.com/openai/CLIP) and [XCLIP](https://github.com/xuguohai/X-CLIP). We thank the original authors for their open-sourcing.
