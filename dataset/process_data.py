@@ -206,14 +206,14 @@ def transPNG(srcImgName):
 class Occlusion_Adding(object):
     def __init__(self):
       super(Occlusion_Adding, self).__init__()   #调用父类的构造函数
-      self.occlusion_list = ['bench', 'bike', 'car', 'card', 'chair', 'firehydrant', 'motobike', 'pedestrian','post', 'roadsign', 'stone', 'bag', 'kite', 'suitcase', 'umbrella']
-      self.area_ratio_dict = {'bench':0.4, 'bike':0.6, 'car': 0.45, 'card': 0.2, 'chair': 0.65, 'firehydrant': 0.2, 'motobike': 0.5, 'pedestrian': 0.5,'post': 0.5, 'roadsign': 0.4, 'stone': 0.15, 'bag': 0.2, 'kite': 0.4, 'suitcase': 0.1, 'umbrella': 0.25}
+      self.occlusion_list = ['bench', 'bike', 'car', 'card', 'chair', 'firehydrant', 'motorbike', 'pedestrian','post', 'roadsign', 'stone', 'bag', 'kite', 'suitcase', 'umbrella']
+      self.area_ratio_dict = {'bench':0.4, 'bike':0.6, 'car': 0.45, 'card': 0.2, 'chair': 0.65, 'firehydrant': 0.2, 'motorbike': 0.5, 'pedestrian': 0.5,'post': 0.5, 'roadsign': 0.4, 'stone': 0.15, 'bag': 0.2, 'kite': 0.4, 'suitcase': 0.1, 'umbrella': 0.25}
     
     def __call__(self, holistic_path, occlusion_path, save_path):
       occlusion_type = random.choice(self.occlusion_list)
       print("occlusion_type:", occlusion_type)
       i = random.randint(1,4)
-      occlusion_path = os.path.join(occlusion_path, occlusion_type + i + '.png')
+      occlusion_path = os.path.join(occlusion_path, occlusion_type + str(i) + '.png')
       verse = Image.open(occlusion_path)
       verse = verse.convert("RGBA")
       w_h_ratio = verse.size[0] / verse.size[1]
@@ -325,6 +325,7 @@ def parse_args():
     parser.add_argument('--data_name', default='CUHK-PEDES', type=str)    
     parser.add_argument('--data_root', default='./CUHK-PEDES/', type=str)    
     parser.add_argument('--json_root', default='./CUHK-PEDES/CUHK-PEDES.json', type=str)
+    parser.add_argument('--occlusion_path', default='./occlusion_img', type=str)
     parser.add_argument('--out_root', default='./CUHK-PEDES/processed_data', type=str)
     parser.add_argument('--min_word_count', default='2', type=int)
     args = parser.parse_args()
