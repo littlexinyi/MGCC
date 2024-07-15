@@ -20,8 +20,8 @@ class options():
     def __init__(self):
         self._par = argparse.ArgumentParser(description='options for Deep Cross Modal')
         #base parameters
-        self._par.add_argument('--model_name', type=str, help='experiment name')
-        self._par.add_argument('--mode', type=str, default='', help='choose mode [train or test]')
+        self._par.add_argument('--model_name', type=str, default='experiment', help='experiment name')
+        self._par.add_argument('--mode', type=str, default='train', help='choose mode [train or test]')
         self._par.add_argument('--GPU_id', type=str, default='0', help='choose GPU ID [0,1,2,3,4,5,6,7]')
         self._par.add_argument('--device', type=str, default='', help='cuda device')
         self._par.add_argument('--dataset', type=str, default='CUHK-PEDES', help='choose the dataset [CUHK-PEDES, ICFG-PEDES, RSTPReid]')
