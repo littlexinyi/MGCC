@@ -7,7 +7,6 @@
 @Contact :   wuxinyi17@nudt.edu.cn
 '''
 import numpy as np
-from torchvision import transforms
 import math
 from PIL import Image
 import random
@@ -228,7 +227,7 @@ class Occlusion_Adding(object):
       occlude_w = int(round(math.sqrt(new_occlude_area * w_h_ratio)))
       verse2 = verse.resize((occlude_w, occlude_h))
       #left_down
-      if(occlusion_type in ['stone', 'motobike', 'bench', 'bike', 'car', 'card', 'chair', 'post']):
+      if(occlusion_type in ['stone', 'motorbike', 'bench', 'bike', 'car', 'card', 'chair', 'post']):
            location = (0, holistic_height-occlude_h)
       #right_down
       elif(occlusion_type in ['roadsign', 'firehydrant', 'pedestrian']):
@@ -324,7 +323,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Command for data pre_processing')
     parser.add_argument('--data_name', default='CUHK-PEDES', type=str)    
     parser.add_argument('--data_root', default='./CUHK-PEDES/', type=str)    
-    parser.add_argument('--json_root', default='./CUHK-PEDES/CUHK-PEDES.json', type=str)
+    parser.add_argument('--json_root', default='./CUHK-PEDES/reid_raw.json', type=str)
     parser.add_argument('--occlusion_path', default='./occlusion_img', type=str)
     parser.add_argument('--out_root', default='./CUHK-PEDES/processed_data', type=str)
     parser.add_argument('--min_word_count', default='2', type=int)
