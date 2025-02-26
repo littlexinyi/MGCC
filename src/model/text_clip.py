@@ -64,16 +64,17 @@ class Text_Clip(nn.Module):
 
         features = self.textExtractor(tokens, output_attentions = True)  
 
-        text_tokens = features.last_hidden_state    #[bz,77,512]
+        text_tokens = features.last_hidden_state    #[bs, 77,512]
         # cls_token = text_tokens[:,0,:]     
         part_tokens = text_tokens[:,1:,:]  
 
-        pooler_output = features.pooler_output      #[bz, 512]         
+        pooler_output = features.pooler_output      #[bs, 512]         
         pooler_output = self.fc(pooler_output)
         text_embeddings = F.normalize(pooler_output, dim=-1)
-        all_part_tokens = self.fc(part_tokens) 
+        all_part_tokens = self.fc(part_tokens)      #[bs, 76, 768]
         if(self.opt.Topk_Selection):
-            attention_map = features.attentions[11]
+
+            attention_map = features.attentions[11]     #[bs, 8, 77, 77]
 
             select_part_tokens, attention_cls_part, selected_indices = self.top_k_selection(all_part_tokens, attention_map, token_len_list)
             
@@ -97,18 +98,19 @@ class Text_Clip(nn.Module):
             return text_embeddings, word_embeddings
 
     def top_k_selection(self, all_word_embeddings, attention_map, token_len_list):
-        attention_map = attention_map.mean(axis=1)    
+        attention_map = attention_map.mean(axis=1)    #对第二维取平均，同时降维。得到结果为 [bs, 77, 77]。[bs, 8, 77, 77]  --> [bs, 77, 77]
+        # print("attention_map:", attention_map.size())
         bs = attention_map.size(0)
         selected_word_embedding = []
         attention_weights_list = []
         selected_indices_list = []
         for i in range(bs):
-            attention_cls_part = attention_map[i, token_len_list[i]]          
-            attention_cls_part = attention_cls_part[1:token_len_list[i]]
-            len_attention_cls_part = attention_cls_part.shape[0]          
+            attention_cls_part = attention_map[i, token_len_list[i]]          #[77]
+            attention_cls_part = attention_cls_part[1:token_len_list[i]]        #[token_len_list[i]-1]
+            len_attention_cls_part = attention_cls_part.shape[0]  
 
-            all_word_embeddings_i = all_word_embeddings[i, :,:].squeeze()      
-            all_word_embeddings_i = all_word_embeddings_i[1:token_len_list[i],:]  
+            all_word_embeddings_i = all_word_embeddings[i, :,:].squeeze()      #[bs, 76, 768]  --> [76, 768]
+            all_word_embeddings_i = all_word_embeddings_i[1:token_len_list[i],:]  #[token_len_list[i]-1, 768]
 
             sort1, indices = torch.sort(attention_cls_part, descending=True)
             
@@ -119,8 +121,11 @@ class Text_Clip(nn.Module):
 
             elif(len_attention_cls_part < self.opt.max_words):
                 yhi = self.opt.max_words - len_attention_cls_part
-                add_yhi = torch.zeros(yhi).to(self.device)
+                add_yhi = torch.zeros(yhi).to(self.device)          # attention_cls_part 是一维张量，所以add_yhi也应该是一维
                 attention_cls_part = torch.cat((attention_cls_part, add_yhi), dim = 0)
+                
+                add_yhi_2 = torch.zeros(yhi, 768).to(self.device)
+                all_word_embeddings_i = torch.cat((all_word_embeddings_i, add_yhi_2), dim = 0)                
 
         
             sort2, indices2 = torch.sort(attention_cls_part, descending=True)    
@@ -131,13 +136,14 @@ class Text_Clip(nn.Module):
             attention_weights_list.append(attention_cls_part.unsqueeze(0))
             selected_indices_list.append(selected_indices2.unsqueeze(0))    
 
-            top_k_embedding = torch.index_select(all_word_embeddings_i, 0, selected_indices2)
-            top_k_embedding = top_k_embedding.unsqueeze(0)
+            top_k_embedding = torch.index_select(all_word_embeddings_i, 0, selected_indices2)   #[25*Rt, 768]
+
+            top_k_embedding = top_k_embedding.unsqueeze(0)     # [0, 25*Rt, 768]
             selected_word_embedding.append(top_k_embedding)
 
-        attention_weights_last = torch.cat(attention_weights_list, 0)   
-        selected_indices_last = torch.cat(selected_indices_list, 0)          
-        selected_word_embedding = torch.cat(selected_word_embedding, 0)   
+        attention_weights_last = torch.cat(attention_weights_list, 0)   #[bs, 25]
+        selected_indices_last = torch.cat(selected_indices_list, 0)      #[bs, 25*Rt]
+        selected_word_embedding = torch.cat(selected_word_embedding, 0)     #[bs, 25*Rt, 768]
 
         return selected_word_embedding, attention_weights_last, selected_indices_last
 

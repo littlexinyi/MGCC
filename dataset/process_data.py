@@ -321,11 +321,11 @@ def generate_occlusion(args):
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Command for data pre_processing')
-    parser.add_argument('--data_name', default='CUHK-PEDES', type=str)    
-    parser.add_argument('--data_root', default='./CUHK-PEDES/', type=str)    
-    parser.add_argument('--json_root', default='./CUHK-PEDES/reid_raw.json', type=str)
+    parser.add_argument('--data_name', default='ICFG-PEDES', type=str)    
+    parser.add_argument('--data_root', default='./ICFG-PEDES/', type=str)    
+    parser.add_argument('--json_root', default='./ICFG-PEDES/ICFG-PEDES.json', type=str)
     parser.add_argument('--occlusion_path', default='./occlusion_img', type=str)
-    parser.add_argument('--out_root', default='./CUHK-PEDES/processed_data', type=str)
+    parser.add_argument('--out_root', default='./ICFG-PEDES/processed_data', type=str)
     parser.add_argument('--min_word_count', default='2', type=int)
     args = parser.parse_args()
     return args

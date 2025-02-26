@@ -30,7 +30,7 @@ pip install -r requirements.txt
                 |-- cam_a
                 |-- cam_b
                 |-- ...
-    |       |-- CUHK-PEDES.json
+    |       |-- reid_raw.json
     |-- others/
     ~~~
 
@@ -46,7 +46,7 @@ pip install -r requirements.txt
     |       |-- imgs
                 |-- test
                 |-- train 
-    |       |-- ICFG_PEDES.json
+    |       |-- ICFG-PEDES.json
     |-- others/
     ~~~
 
@@ -60,7 +60,7 @@ pip install -r requirements.txt
     |-- dataset/
     |   |-- RSTPReid/
     |       |-- imgs
-    |       |-- RSTPReid.json
+    |       |-- data_captions.json
     |-- others/
     ~~~
 
